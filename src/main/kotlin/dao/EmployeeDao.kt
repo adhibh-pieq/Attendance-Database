@@ -1,0 +1,66 @@
+package dao
+import org.jdbi.v3.core.Jdbi
+import java.util.UUID
+
+class EmployeeDao(private val jdbi: Jdbi) {
+
+    fun insert(emp: Employee): Int {
+        return jdbi.withHandle<Int, Exception> { handle ->
+            handle.createUpdate(
+                """
+                INSERT INTO employee (employee_id, first_name, last_name, role_id, department_id, reporting_to)
+                VALUES (:employeeId, :firstName, :lastName, :roleId, :departmentId, :reportingTo)
+                """
+            )
+                .bindBean(emp)
+                .execute()
+        }
+    }
+
+    fun getById(id: UUID): Employee? {
+        return jdbi.withHandle<Employee?, Exception> { handle ->
+            handle.createQuery(
+                """
+                SELECT employee_id AS "employeeId",
+                       first_name AS "firstName",
+                       last_name AS "lastName",
+                       role_id AS "roleId",
+                       department_id AS "departmentId",
+                       reporting_to AS "reportingTo"
+                FROM employee
+                WHERE employee_id = :id
+                """
+            )
+                .bind("id", id)
+                .mapTo(Employee::class.java)
+                .findOne()
+                .orElse(null)
+        }
+    }
+
+    fun getAll(): List<Employee> {
+        return jdbi.withHandle<List<Employee>, Exception> { handle ->
+            handle.createQuery(
+                """
+            SELECT employee_id AS "employeeId",
+                   first_name AS "firstName",
+                   last_name AS "lastName",
+                   role_id AS "roleId",
+                   department_id AS "departmentId",
+                   reporting_to AS "reportingTo"
+            FROM employee
+            """
+            )
+                .mapTo(Employee::class.java)
+                .list()
+        }
+    }
+
+    fun delete(id: UUID): Int {
+        return jdbi.withHandle<Int, Exception> { handle ->
+            handle.createUpdate("DELETE FROM employee WHERE employee_id = :id")
+                .bind("id", id)
+                .execute()
+        }
+    }
+}
