@@ -1,68 +1,68 @@
-# Folder
+# Folders
 
 ## config/
-This folder holds the application's startup configuration.
+Holds the application's configuration.
 
-Configuration.kt: Maps settings from config.yml, especially for the database connection.
+>> Configuration.kt: Maps settings from config.yml,like port numbers and database username,passwords,url.
 
 ## dao/
-This folder contains objects that directly query the database.
+Contains objects that directly query the database.
 
-Attendance.kt: Defines the data structure for a single attendance record.
+>> Attendance.kt: Defines the data structure for a single attendance record.
 
-Employee.kt: Defines the data structure for an employee and its associated roles and departments.
+>> Employee.kt: Defines the data structure for an employee and its associated roles and departments.
 
-AttendanceDao.kt: Executes all SQL queries for the attendance table.
+>> AttendanceDao.kt: Executes all SQL queries for the attendance table.
 
-EmployeeDao.kt: Executes all SQL queries for the employee table.
+>> EmployeeDao.kt: Executes all SQL queries for the employee table.
 
 ## dto/
-This folder defines the structure of data sent and received over the API.
+Defines the structure of data sent and received over the API.
 
-CheckInDto.kt: Defines the JSON request body for clocking in.
+>> CheckInDto.kt: Defines the JSON request body for checking in.
 
-CheckOutDto.kt: Defines the JSON request body for clocking out.
+>> CheckOutDto.kt: Defines the JSON request body for checking out.
 
-WorkingHoursSummaryDto.kt: Defines the JSON response for the work hours report.
+>> WorkingHoursSummaryDto.kt: Defines the JSON response for the summary report.
 
 ## model/
-This folder holds data models for specific API requests.
+Holds data models for specific API requests.
 
-EmployeeRequest.kt: Defines the JSON request body for creating a new employee.
+>> EmployeeRequest.kt: Defines the JSON request body for creating a new employee.
 
 ## resource/
-This folder defines the API endpoints that users can access.
+Defines the API endpoints that users can access.
 
-AttendanceResource.kt: Handles all web requests related to attendance, like /checkin and /checkout.
+>> AttendanceResource.kt: Handles all web requests related to attendance.
 
-EmployeeResource.kt: Handles all web requests for creating, viewing, and deleting employees at the /employees path.
+>> EmployeeResource.kt: Handles all web requests related to employee.
 
 ## service/
-This folder contains the application's core business logic and rules.
+Contains the application's core business logic and rules.
 
-AttendanceService.kt: Validates and orchestrates all attendance-related actions.
+>> AttendanceService.kt: Validates and performs all attendance-related actions.
 
-EmployeeService.kt: Implements the logic for managing employee data.
+>> EmployeeService.kt: Manages employee data.
 
 ## Root File
-Application.kt: Initializes and connects all the above components to start the application.
+>> Application.kt: Initializes and connects all the above components to start the application.
 
 ## API Endpoints:
 
 ### Employee
 
-POST- /employees: Adds a new employee.
+>> POST- /employees: Adds a new employee.
 
-GET- /employees: Retrieves all employees.
+>> GET- /employees: Retrieves all employees.
 
-DELETE- /employees/{id}: Deletes a specific employee.
+>> DELETE- /employees/{id}: Deletes a specific employee.
 
 ### Attendance
 
-POST- /attendance/checkin: Records an employee's check-in time.
+>> POST- /attendance/checkin: Records an employee's check-in time.
 
-PUT- /attendance/checkout: Records an employee's check-out time.
+>> PUT- /attendance/checkout: Records an employee's check-out time.
 
-GET- /attendance/all: Retrieves all attendance records.
+>> GET- /attendance/all: Retrieves all attendance records.
 
-GET- /attendance/summary: Reports total hours worked within a date range (?fromDate=...&toDate=...).
+>> GET- /attendance/summary: Reports total hours worked within a date range for all employees (?fromDate=...&toDate=...).
