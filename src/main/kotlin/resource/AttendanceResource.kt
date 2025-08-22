@@ -7,7 +7,6 @@ import dto.CheckOutDto
 import service.AttendanceService
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.UUID
 import java.time.format.DateTimeParseException
 
 @Path("/attendance")

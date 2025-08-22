@@ -1,5 +1,4 @@
 package model
-import com.fasterxml.jackson.annotation.JsonProperty
 import jakarta.validation.constraints.NotBlank
 
 data class EmployeeRequest(

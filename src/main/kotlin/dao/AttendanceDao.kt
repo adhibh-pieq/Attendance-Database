@@ -1,5 +1,4 @@
 package dao
-import dao.Attendance
 import org.jdbi.v3.core.Jdbi
 import org.jdbi.v3.core.kotlin.mapTo
 import java.time.LocalDate

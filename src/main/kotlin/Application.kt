@@ -8,8 +8,6 @@ import io.dropwizard.core.Application
 import io.dropwizard.core.setup.Bootstrap
 import io.dropwizard.core.setup.Environment
 import io.dropwizard.jdbi3.JdbiFactory
-import jakarta.servlet.DispatcherType
-import org.eclipse.jetty.servlets.CrossOriginFilter
 import org.jdbi.v3.core.Jdbi
 import org.jdbi.v3.core.kotlin.KotlinPlugin
 import org.jdbi.v3.sqlobject.SqlObjectPlugin
@@ -17,21 +15,20 @@ import resource.AttendanceResource
 import resource.EmployeeResource
 import service.AttendanceService
 import service.EmployeeService
-import java.util.*
 
 class AppMain : Application<Configuration>() {
     override fun initialize(bootstrap: Bootstrap<Configuration>) {
-        bootstrap.objectMapper.registerModule(kotlinModule())
-        bootstrap.objectMapper.registerModule(JavaTimeModule())
+        bootstrap.objectMapper.registerModule(kotlinModule())//serialize json data to kt data classes
+        bootstrap.objectMapper.registerModule(JavaTimeModule())//handles date and time
         bootstrap.objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
     }
 
     override fun run(configuration: Configuration, environment: Environment) {
         // Setup JDBI
-        val factory = JdbiFactory()
+        val factory = JdbiFactory() //creates JDBI instance
         val jdbi: Jdbi = factory.build(environment, configuration.database, "postgresql")
-        jdbi.installPlugin(SqlObjectPlugin())
-        jdbi.installPlugin(KotlinPlugin())
+        jdbi.installPlugin(SqlObjectPlugin()) //allows writing sql in kotlin
+        jdbi.installPlugin(KotlinPlugin()) //helps in mapping db rows to kotlin data classes
 
         // Employee components
         val employeeDao = EmployeeDao(jdbi)
@@ -45,17 +42,9 @@ class AppMain : Application<Configuration>() {
         environment.jersey().register(EmployeeResource(employeeService))
         environment.jersey().register(AttendanceResource(attendanceService))
 
-        // Setup CORS
-        val cors = environment.servlets().addFilter("CORS", CrossOriginFilter::class.java)
-        cors.setInitParameter(CrossOriginFilter.ALLOWED_ORIGINS_PARAM, "http://localhost:3000")
-        cors.setInitParameter(CrossOriginFilter.ALLOWED_HEADERS_PARAM, "X-Requested-With,Content-Type,Accept,Origin,Authorization")
-        cors.setInitParameter(CrossOriginFilter.ALLOWED_METHODS_PARAM, "OPTIONS,GET,PUT,POST,DELETE,HEAD")
-        cors.setInitParameter(CrossOriginFilter.ALLOW_CREDENTIALS_PARAM, "true")
-        cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType::class.java), true, "/*")
+
     }
-
 }
-
 fun main(args: Array<String>) {
     AppMain().run(*args)
 }
