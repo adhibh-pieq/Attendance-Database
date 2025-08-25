@@ -21,10 +21,8 @@ class AttendanceResource(private val attendanceService: AttendanceService) {
             attendanceService.validateAndCheckIn(request.employeeId, request.checkIn)
             Response.status(Response.Status.CREATED).entity(mapOf("message" to "Check-in successful.")).build()
         } catch (e: jakarta.ws.rs.WebApplicationException) {
-            // Catches NotFoundException, BadRequestException, and the ClientErrorException
             Response.status(e.response.status).entity(mapOf("error" to e.message)).build()
         } catch (e: Exception) {
-            // Generic catch-all for other unexpected errors
             Response.serverError().entity(mapOf("error" to "An unexpected error occurred.")).build()
         }
     }

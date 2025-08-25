@@ -20,7 +20,6 @@ class EmployeeResource(private val employeeService: EmployeeService) {
 
     @POST
     fun addEmployee(@Valid request: EmployeeRequest): Response {
-        // Validate Role and Department strings
         val role = Role.fromName(request.role)
             ?: return Response.status(Response.Status.BAD_REQUEST)
                 .entity(mapOf("error" to "Invalid role specified. Valid roles are: ${Role.entries.map { it.name }}"))
@@ -31,7 +30,7 @@ class EmployeeResource(private val employeeService: EmployeeService) {
                 .entity(mapOf("error" to "Invalid department specified. Valid departments are: ${Department.entries.map { it.name }}"))
                 .build()
 
-        // Validate reportingTo UUID format if it exists
+
         val reportingToUUID = try {
             request.reportingto?.let { UUID.fromString(it) }
         } catch (e: IllegalArgumentException) {
@@ -48,11 +47,10 @@ class EmployeeResource(private val employeeService: EmployeeService) {
                 department = department,
                 reportingTo = reportingToUUID
             )
-            // On success, return 201 Created with the new employee object
+
             Response.status(Response.Status.CREATED).entity(newEmployee).build()
         } catch (e: Exception) {
             log.error("Error adding employee", e)
-            // Handle potential database constraint violations or other errors
             Response.status(Response.Status.CONFLICT)
                 .entity(mapOf("error" to (e.message ?: "Failed to add employee due to a data conflict.")))
                 .build()
@@ -74,14 +72,11 @@ class EmployeeResource(private val employeeService: EmployeeService) {
             return Response.status(Response.Status.BAD_REQUEST).entity(mapOf("error" to "Invalid employee UUID format.")).build()
         }
 
-        // The service returns a Boolean
         val wasDeleted = employeeService.deleteEmployee(employeeId)
 
         return if (wasDeleted) {
-            // If true, return 200 OK
             Response.ok(mapOf("message" to "Employee deleted successfully.")).build()
         } else {
-            // If false, it means no employee was found with that ID
             Response.status(Response.Status.NOT_FOUND)
                 .entity(mapOf("error" to "Employee not found."))
                 .build()

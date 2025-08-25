@@ -10,12 +10,11 @@ import dto.WorkingHoursSummaryDto
 
 class AttendanceService(
     private val attendanceDao: AttendanceDao,
-    private val employeeDao: EmployeeDao // Inject EmployeeDao to check if employee exists
+    private val employeeDao: EmployeeDao
 ) {
 
     fun validateAndCheckIn(employeeId: UUID, checkIn: LocalDateTime) {
         if (employeeDao.getById(employeeId) == null) {
-            // jakarta.ws.rs.NotFoundException is a good choice here
             throw jakarta.ws.rs.NotFoundException("Employee with ID $employeeId not found.")
         }
         if (checkIn.isAfter(LocalDateTime.now())) {
@@ -23,7 +22,6 @@ class AttendanceService(
         }
         val date = checkIn.toLocalDate()
         if (attendanceDao.findIncompleteAttendance(employeeId, date) != null) {
-            // jakarta.ws.rs.ClientErrorException is suitable for a 409 Conflict
             throw jakarta.ws.rs.ClientErrorException("Already checked in today for employee $employeeId", Response.Status.CONFLICT)
         }
         attendanceDao.insertCheckIn(employeeId, checkIn)
@@ -51,7 +49,6 @@ class AttendanceService(
 
     fun getWorkingHoursSummary(fromDate: LocalDate, toDate: LocalDate): List<WorkingHoursSummaryDto> {
         if (fromDate.isAfter(toDate)) {
-            // Optional: Add business logic validation
             throw IllegalArgumentException("fromDate cannot be after toDate.")
         }
         return attendanceDao.getWorkingHoursSummary(fromDate, toDate)
