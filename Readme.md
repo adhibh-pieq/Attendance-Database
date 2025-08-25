@@ -11,14 +11,15 @@
 - PostgreSQL: Database used to store employee and attendance data.
 - JDBI: Interacts with the database.
 ## Request and Response Flow
-1.  The embedded Jetty server receives the client's initial HTTP request.
-2.  The Jersey framework routes the request to the appropriate Resource method based on the URL and HTTP method.
-3.  Jackson deserializes the request's JSON body into a validated DTO within the Resource layer.
-4.  The Resource delegates the request to the Service layer to execute core business logic.
-5.  The Service calls the DAO layer, which uses JDBI to interact with the database.
-6.  The DAO fetches data from the database and maps the results to model objects.
-7.  The resulting data flows back up the stack from the DAO through the Service to the Resource.
-8.  Jackson serializes the final response object to JSON, and Jetty sends the HTTP response back to the client.
+1. The config.yml file  defines the server port for the application to run and the database credentials needed to establish a connection.
+2. The embedded Jetty server receives the client's initial HTTP request.
+3. The Jersey framework routes the request to the appropriate Resource method based on the URL and HTTP method.
+4. Jackson deserializes the request's JSON body into a validated DTO within the Resource layer.
+5. The Resource delegates the request to the Service layer to execute core business logic.
+6. The Service calls the DAO layer, which uses JDBI to interact with the database.
+7. The DAO fetches data from the database and maps the results to model objects.
+8. The resulting data flows back up the stack from the DAO through the Service to the Resource.
+9. Jackson serializes the final response object to JSON, and Jetty sends the HTTP response back to the client.
 
 ## Folders
 ## config/
