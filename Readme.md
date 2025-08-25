@@ -11,7 +11,7 @@
 - PostgreSQL: Database used to store employee and attendance data.
 - JDBI: Interacts with the database.
 ## Request and Response Flow
-1. The config.yml file  defines the server port for the application to run and the database credentials needed to establish a connection.
+1. The config.yml file defines the server port for the application to run and the database credentials needed to establish a connection.
 2. The embedded Jetty server receives the client's initial HTTP request.
 3. The Jersey framework routes the request to the appropriate Resource method based on the URL and HTTP method.
 4. Jackson deserializes the request's JSON body into a validated DTO within the Resource layer.
@@ -38,9 +38,6 @@ Defines the structure of data sent and received over the API.
 - CheckInDto.kt: Defines the JSON request body for checking in.
 - CheckOutDto.kt: Defines the JSON request body for checking out.
 - WorkingHoursSummaryDto.kt: Defines the JSON response for the summary report.
-
-## model/
-Holds data models for specific API requests.
 - EmployeeRequest.kt: Defines the JSON request body for creating a new employee.
 
 ## resource/

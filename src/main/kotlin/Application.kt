@@ -18,7 +18,7 @@ import service.EmployeeService
 
 class AppMain : Application<Configuration>() {
     override fun initialize(bootstrap: Bootstrap<Configuration>) {
-        bootstrap.objectMapper.registerModule(kotlinModule())//serialize json data to kt data classes
+        bootstrap.objectMapper.registerModule(kotlinModule())//convert json data to kt data classes
         bootstrap.objectMapper.registerModule(JavaTimeModule())//handles date and time
         bootstrap.objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
     }
@@ -41,8 +41,6 @@ class AppMain : Application<Configuration>() {
         // --- Register resources ---
         environment.jersey().register(EmployeeResource(employeeService))
         environment.jersey().register(AttendanceResource(attendanceService))
-
-
     }
 }
 fun main(args: Array<String>) {
