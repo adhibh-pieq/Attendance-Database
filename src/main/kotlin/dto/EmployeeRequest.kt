@@ -1,4 +1,5 @@
-package model
+package dto
+
 import jakarta.validation.constraints.NotBlank
 
 data class EmployeeRequest(

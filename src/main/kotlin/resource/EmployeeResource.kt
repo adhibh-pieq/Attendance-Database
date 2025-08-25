@@ -6,7 +6,7 @@ import jakarta.validation.Valid
 import jakarta.ws.rs.*
 import jakarta.ws.rs.core.MediaType
 import jakarta.ws.rs.core.Response
-import model.EmployeeRequest
+import dto.EmployeeRequest
 import org.slf4j.LoggerFactory
 import service.EmployeeService
 import java.util.UUID
