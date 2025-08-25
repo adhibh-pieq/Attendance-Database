@@ -17,8 +17,8 @@
 4. Jackson deserializes the request's JSON body into a validated DTO within the Resource layer.
 5. The Resource delegates the request to the Service layer to execute core business logic.
 6. The Service calls the DAO layer, which uses JDBI to interact with the database.
-7. The DAO fetches data from the database and maps the results to model objects.
-8. The resulting data flows back up the stack from the DAO through the Service to the Resource.
+7. The DAO fetches data from the database and maps the results to appropriate objects.
+8. The resulting data flows back from the DAO through the Service to the Resource.
 9. Jackson serializes the final response object to JSON, and Jetty sends the HTTP response back to the client.
 
 ## Folders
