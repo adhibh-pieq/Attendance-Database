@@ -1,4 +1,4 @@
-# Employee Attendance System
+# Employee Attendance management System
 
 ## Key Features
 - Employee Management: Add, view, and delete employee profiles.
